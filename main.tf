@@ -11,7 +11,10 @@ resource "aws_iam_role" "cross_account_assume_role" {
   name                 = var.role_name
   assume_role_policy   = module.iam_policy_document.iam_policy_json
   max_session_duration = var.max_session_duration
+  path                 = "/CustomerManaged/"
+  permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/BasicRole_Boundary"
   tags                 = local.common_tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "cross_account_assume_role" {
